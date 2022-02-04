@@ -30,154 +30,154 @@ type KeyboardParams = {
 	hints: Hints<string>;
 };
 const Keyboard = ({ hints }: KeyboardParams) => {
-	const row1 = [
-		{
-			value: "Q",
-			color: "light",
-			wide: false,
-		},
-		{
-			value: "W",
-			color: "light",
-			wide: false,
-		},
-		{
-			value: "E",
-			color: "light",
-			wide: false,
-		},
-		{
-			value: "R",
-			color: "light",
-			wide: false,
-		},
-		{
-			value: "T",
-			color: "light",
-			wide: false,
-		},
-		{
-			value: "Y",
-			color: "light",
-			wide: false,
-		},
-		{
-			value: "U",
-			color: "light",
-			wide: false,
-		},
-		{
-			value: "O",
-			color: "light",
-			wide: false,
-		},
-		{
-			value: "I",
-			color: "light",
-			wide: false,
-		},
-		{
-			value: "P",
-			color: "light",
-			wide: false,
-		},
-	];
-	const row2 = [
-		{
-			value: "A",
-			color: "light",
-			wide: false,
-		},
-		{
-			value: "S",
-			color: "light",
-			wide: false,
-		},
-		{
-			value: "D",
-			color: "light",
-			wide: false,
-		},
-		{
-			value: "F",
-			color: "light",
-			wide: false,
-		},
-		{
-			value: "G",
-			color: "light",
-			wide: false,
-		},
-		{
-			value: "H",
-			color: "light",
-			wide: false,
-		},
-		{
-			value: "J",
-			color: "light",
-			wide: false,
-		},
-		{
-			value: "K",
-			color: "light",
-			wide: false,
-		},
-		{
-			value: "L",
-			color: "light",
-			wide: false,
-		},
-	];
-	const row3 = [
-		{
-			value: "ENTER",
-			color: "light",
-			wide: true,
-		},
-		{
-			value: "Z",
-			color: "light",
-			wide: false,
-		},
-		{
-			value: "X",
-			color: "light",
-			wide: false,
-		},
-		{
-			value: "C",
-			color: "light",
-			wide: false,
-		},
-		{
-			value: "V",
-			color: "light",
-			wide: false,
-		},
-		{
-			value: "B",
-			color: "light",
-			wide: false,
-		},
-		{
-			value: "N",
-			color: "light",
-			wide: false,
-		},
-		{
-			value: "M",
-			color: "light",
-			wide: false,
-		},
-		{
-			value: "BACK",
-			color: "light",
-			wide: true,
-		},
-	];
 	const [rows, setRows] = useState<JSX.Element[]>([]);
 	useEffect(() => {
+		const row1 = [
+			{
+				value: "Q",
+				color: "light",
+				wide: false,
+			},
+			{
+				value: "W",
+				color: "light",
+				wide: false,
+			},
+			{
+				value: "E",
+				color: "light",
+				wide: false,
+			},
+			{
+				value: "R",
+				color: "light",
+				wide: false,
+			},
+			{
+				value: "T",
+				color: "light",
+				wide: false,
+			},
+			{
+				value: "Y",
+				color: "light",
+				wide: false,
+			},
+			{
+				value: "U",
+				color: "light",
+				wide: false,
+			},
+			{
+				value: "O",
+				color: "light",
+				wide: false,
+			},
+			{
+				value: "I",
+				color: "light",
+				wide: false,
+			},
+			{
+				value: "P",
+				color: "light",
+				wide: false,
+			},
+		];
+		const row2 = [
+			{
+				value: "A",
+				color: "light",
+				wide: false,
+			},
+			{
+				value: "S",
+				color: "light",
+				wide: false,
+			},
+			{
+				value: "D",
+				color: "light",
+				wide: false,
+			},
+			{
+				value: "F",
+				color: "light",
+				wide: false,
+			},
+			{
+				value: "G",
+				color: "light",
+				wide: false,
+			},
+			{
+				value: "H",
+				color: "light",
+				wide: false,
+			},
+			{
+				value: "J",
+				color: "light",
+				wide: false,
+			},
+			{
+				value: "K",
+				color: "light",
+				wide: false,
+			},
+			{
+				value: "L",
+				color: "light",
+				wide: false,
+			},
+		];
+		const row3 = [
+			{
+				value: "ENTER",
+				color: "light",
+				wide: true,
+			},
+			{
+				value: "Z",
+				color: "light",
+				wide: false,
+			},
+			{
+				value: "X",
+				color: "light",
+				wide: false,
+			},
+			{
+				value: "C",
+				color: "light",
+				wide: false,
+			},
+			{
+				value: "V",
+				color: "light",
+				wide: false,
+			},
+			{
+				value: "B",
+				color: "light",
+				wide: false,
+			},
+			{
+				value: "N",
+				color: "light",
+				wide: false,
+			},
+			{
+				value: "M",
+				color: "light",
+				wide: false,
+			},
+			{
+				value: "BACK",
+				color: "light",
+				wide: true,
+			},
+		];
 		const getHintedRow = (row: Key[], hints: Hints<string>) => {
 			const result = row.map((key) => {
 				if (key.value in hints) {

@@ -50,7 +50,7 @@ const Board = ({ numRows, numLetters, words, currentRow }: BoardParams) => {
 		));
 		letterRows.splice(words.length, 0, currentRow);
 		setRows(letterRows);
-	}, [words, currentRow]);
+	}, [words, currentRow, numRows, numLetters]);
 	return <div className="Board">{rows}</div>;
 };
 
