@@ -2,7 +2,7 @@
 import { combineReducers } from "redux";
 
 const allReducers = combineReducers({
-  // sample: sampleReducer
+	// sample: sampleReducer
 });
 
 export default allReducers;

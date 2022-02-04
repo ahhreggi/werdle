@@ -2,40 +2,20 @@
 @import "./typography";
 @import "./mixins";
 
-/* Font styles */
+/* Background color styles */
 
-.font-red {
-  color: $red;
+.bg-black {
+  background-color: $black;
 }
-
-.font-orange {
-  color: $orange;
+.bg-dark {
+  background-color: $dark;
 }
-
-.font-yellow {
-  color: $yellow;
+.bg-light {
+  background-color: $light;
 }
-
-.font-green {
-  color: $green;
+.bg-yellow {
+  background-color: $yellow;
 }
-
-.font-blue {
-  color: $blue;
-}
-
-.font-purple {
-  color: $purple;
-}
-
-.font-pink {
-  color: $pink;
-}
-
-.font-navy {
-  color: $navy;
-}
-
-.font-grey {
-  color: $grey;
+.bg-green {
+  background-color: $green;
 }
