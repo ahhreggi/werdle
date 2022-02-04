@@ -225,9 +225,9 @@ const App = () => {
 				<>
 					<div className="container">
 						<div className="menu-container">
-							<Button label="new game" onClick={() => resetGame()} />
+							<Button label="new&nbsp;game" onClick={() => resetGame()} />
 							<Button
-								label="clear row"
+								label="clear&nbsp;row"
 								onClick={() => setField("")}
 								active={active && !!field.length}
 							/>
