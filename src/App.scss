@@ -55,3 +55,17 @@
 		}
 	}
 }
+@media screen and (max-width: 400px) {
+	.App {
+		.container {
+			.menu-container {
+				.Button {
+					font-size: 10px;
+				}
+			}
+			.error-container {
+				font-size: 10px;
+			}
+		}
+	}
+}
