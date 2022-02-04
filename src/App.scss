@@ -3,13 +3,14 @@
 .App {
 	color: $white;
 	background-color: $black;
-	height: 100vh;
+	height: 95vh;
 	width: 100vw;
 	@include flex-center-col;
 	flex-grow: 1;
 	user-select: none;
 	justify-content: space-between;
 	overflow: hidden;
+	font-family: $font-main;
 	h1 {
 		font-size: 5vh;
 		margin: 0;
