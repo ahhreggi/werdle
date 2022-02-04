@@ -30,6 +30,7 @@
 			height: 25px;
 			margin-top: 10px;
 			color: $lighter;
+			width: 95vw;
 		}
 	}
 }
@@ -40,7 +41,8 @@
 				width: 180px;
 				margin-top: 10px;
 				.Button {
-					font-size: 11px;
+					font-size: 10px;
+					padding: 0;
 				}
 			}
 			.error-container {
