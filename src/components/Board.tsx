@@ -1,30 +1,12 @@
 import "./Board.scss";
-
-interface Letter {
-	value: string | null;
-	hint: string | null;
-}
-type Word = Letter[];
+import type { Letter, Word } from "./BoardTypes";
+import { getHintColor } from "./helpers";
 
 type SquareParams = {
 	letter: Letter;
 };
 const Square = ({ letter }: SquareParams) => {
-	let color;
-	switch (letter.hint) {
-		case "correct":
-			color = "green";
-			break;
-		case "partial":
-			color = "yellow";
-			break;
-		case "incorrect":
-			color = "dark";
-			break;
-		default:
-		case null:
-			color = "black";
-	}
+	const color = getHintColor(letter.hint);
 	return (
 		<div className={`Square bg-${color}`}>
 			{!!letter.value && <div className="letter">{letter.value}</div>}
@@ -32,12 +14,12 @@ const Square = ({ letter }: SquareParams) => {
 	);
 };
 
-type WordParams = {
+type LetterRowParams = {
 	letters: Letter[];
 };
-const Word = ({ letters }: WordParams) => {
+const LetterRow = ({ letters }: LetterRowParams) => {
 	return (
-		<div className="Word">
+		<div className="LetterRow">
 			{letters.map((letter, index) => (
 				<Square key={index} letter={letter} />
 			))}
@@ -58,7 +40,7 @@ const Board = ({ numRows, numLetters, words }: BoardParams) => {
 			words.push(emptyRow);
 		}
 	}
-	const rows = words.map((word, i) => <Word key={i} letters={word} />);
+	const rows = words.map((word, i) => <LetterRow key={i} letters={word} />);
 	return <div className="Board">{rows}</div>;
 };
 

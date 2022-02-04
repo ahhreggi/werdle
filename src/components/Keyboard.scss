@@ -1,1 +1,21 @@
 @import "../styles/global.scss";
+
+.Keyboard {
+	height: 500px;
+	padding: 20px;
+	margin-top: 50px;
+	.Row {
+		@include flex-center;
+		margin: 2px 0;
+		.KeyButton {
+			height: 60px;
+			width: 45px;
+			margin: 3px;
+			@include flex-center;
+			border-radius: 5px;
+			&.wide {
+				width: 70px;
+			}
+		}
+	}
+}

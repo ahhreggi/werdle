@@ -1,4 +1,4 @@
-// import { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 // import { useSelector, useDispatch } from "react-redux";
 import "./App.scss";
 import Board from "components/Board";
@@ -51,12 +51,63 @@ const wordsList = [
 	],
 ];
 
+export type Hints<T> = {
+	[key: string]: T;
+};
+
 const App = () => {
+	const answer = ["S", "H", "A", "R", "D"];
+	const settings = {
+		letters: 5,
+		tries: 6,
+	};
+	const [hints, setHints] = useState<Hints<string>>({
+		A: "incorrect",
+		S: "correct",
+		Z: "partial",
+	});
+	const addHint = (hint: string, letter: string) => {
+		if (letter in hints && hints[letter] !== hint) {
+			const currentHint = hints[letter];
+			if (
+				hint === "correct" ||
+				(hint === "partial" && currentHint === "incorrect") ||
+				hint === "incorrect"
+			) {
+				setHints({ ...hints, [letter]: hint });
+			}
+		} else if (!(letter in hints)) {
+			setHints({ ...hints, [letter]: hint });
+		}
+	};
+	const onSubmit = (word: string) => {
+		const submittedRow = [];
+		const ans = [...answer];
+		for (let i = 0; i < settings.letters; i++) {
+			const letter = word[i];
+			let hint;
+			if (ans[i] === letter) {
+				hint = "correct";
+				ans[i] = "-";
+			} else if (ans.includes(letter)) {
+				hint = "partial";
+				ans[ans.indexOf(letter)] = "-";
+			} else {
+				hint = "incorrect";
+			}
+			addHint(hint, letter);
+			submittedRow.push({ value: letter, hint });
+		}
+	};
 	return (
 		<div className="App">
 			<h1>WERDLE</h1>
-			<Board numRows={6} numLetters={5} words={wordsList} />
-			<Keyboard />
+			<Board
+				numRows={settings.tries}
+				numLetters={settings.letters}
+				words={wordsList}
+			/>
+			<Keyboard hints={hints} />
 		</div>
 	);
 };

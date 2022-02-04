@@ -1,27 +1,26 @@
 @import "../styles/global.scss";
 
 .Board {
-	border: 1px solid red;
 	padding: 50px;
-	.Word {
+	.LetterRow {
 		@include flex-center;
 		flex-direction: "row";
-	}
-	.Square {
-		height: 50px;
-		width: 50px;
-		@include flex-center;
-		flex-direction: "row";
-		margin: 5px;
-		border: 2px solid $light;
-		.letter {
-			font-size: 36px;
-			margin-top: -4px;
-		}
-		&.bg-green,
-		&.bg-yellow,
-		&.bg-dark {
-			border-color: transparent;
+		.Square {
+			height: 50px;
+			width: 50px;
+			@include flex-center;
+			flex-direction: "row";
+			margin: 5px;
+			border: 2px solid $light;
+			.letter {
+				font-size: 36px;
+				margin-top: -4px;
+			}
+			&.bg-green,
+			&.bg-yellow,
+			&.bg-dark {
+				border-color: transparent;
+			}
 		}
 	}
 }
