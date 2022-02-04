@@ -1,0 +1,41 @@
+@import "./variables";
+@import "./typography";
+@import "./mixins";
+
+/* Font styles */
+
+.font-red {
+  color: $red;
+}
+
+.font-orange {
+  color: $orange;
+}
+
+.font-yellow {
+  color: $yellow;
+}
+
+.font-green {
+  color: $green;
+}
+
+.font-blue {
+  color: $blue;
+}
+
+.font-purple {
+  color: $purple;
+}
+
+.font-pink {
+  color: $pink;
+}
+
+.font-navy {
+  color: $navy;
+}
+
+.font-grey {
+  color: $grey;
+}

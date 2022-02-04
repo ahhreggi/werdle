@@ -1,0 +1,37 @@
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin flex-center-col {
+  @include flex-center;
+  flex-direction: column;
+}
+
+@mixin text-shadow {
+  text-shadow: 0 0 2px 1px $dark;
+}
+
+@mixin custom-scrollbar {
+  overflow: overlay;
+  overflow-x: hidden;
+
+  &::-webkit-scrollbar {
+    height: 0rem;
+    width: 0rem;
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: transparent;
+    border-radius: 15px;
+  }
+
+  &::-webkit-scrollbar-corner {
+    background: transparent;
+  }
+}
