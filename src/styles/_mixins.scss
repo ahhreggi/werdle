@@ -1,37 +1,60 @@
 @mixin flex-center {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 @mixin flex-center-col {
-  @include flex-center;
-  flex-direction: column;
+	@include flex-center;
+	flex-direction: column;
 }
 
 @mixin text-shadow {
-  text-shadow: 0 0 2px 1px $dark;
+	text-shadow: 0 0 2px 1px $dark;
 }
 
 @mixin custom-scrollbar {
-  overflow: overlay;
-  overflow-x: hidden;
+	overflow: overlay;
+	overflow-x: hidden;
 
-  &::-webkit-scrollbar {
-    height: 0rem;
-    width: 0rem;
-  }
+	&::-webkit-scrollbar {
+		height: 0rem;
+		width: 0rem;
+	}
 
-  &::-webkit-scrollbar-track {
-    background-color: transparent;
-  }
+	&::-webkit-scrollbar-track {
+		background-color: transparent;
+	}
 
-  &::-webkit-scrollbar-thumb {
-    background-color: transparent;
-    border-radius: 15px;
-  }
+	&::-webkit-scrollbar-thumb {
+		background-color: transparent;
+		border-radius: 15px;
+	}
 
-  &::-webkit-scrollbar-corner {
-    background: transparent;
-  }
+	&::-webkit-scrollbar-corner {
+		background: transparent;
+	}
+}
+
+@mixin custom-button {
+	color: $white;
+	background-color: $light;
+	padding: 0;
+	margin: 3px;
+	border-radius: 5px;
+	transition: 0.1s;
+	outline: none;
+	border-style: none;
+	opacity: 0.5;
+	height: 60px;
+	&.active {
+		opacity: 0.9;
+		&:hover {
+			cursor: pointer;
+			opacity: 1;
+		}
+		&:active {
+			opacity: 0.5;
+		}
+	}
 }

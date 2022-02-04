@@ -1,0 +1,15 @@
+@import "../styles/global.scss";
+
+.Button {
+	@include flex-center;
+	@include custom-button;
+	padding: 20px;
+	height: 40px;
+	text-transform: uppercase;
+}
+@media screen and (max-width: 480px) {
+	.Button {
+		font-size: 10px;
+		max-height: 50px;
+	}
+}

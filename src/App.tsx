@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import "./App.scss";
 import Board from "components/Board";
 import Keyboard from "components/Keyboard";
+import Button from "components/Button";
 import { LetterRow } from "components/Board";
 import type { Hints, Settings, Word } from "./components/types";
 import { compareHints } from "components/helpers";
@@ -10,7 +11,7 @@ import { words } from "data/words";
 
 const App = () => {
 	const [settings, setSettings] = useState<Settings>({
-		letters: 5,
+		letters: 6,
 		tries: 6,
 		wordsOnly: false,
 	});
@@ -27,6 +28,7 @@ const App = () => {
 	const generateAnswer = (length = settings.letters.toString()) => {
 		const wordsList = words[length];
 		const answer = wordsList[Math.floor(Math.random() * wordsList.length)];
+		console.log("ANSWER:", answer);
 		return Array.from(answer);
 	};
 	useEffect(() => {
@@ -67,8 +69,8 @@ const App = () => {
 		return true;
 	};
 	useEffect(() => {
-		setActive(getStatus(answers, settings, answer, field));
 		setField("");
+		setActive(getStatus(answers, settings, answer, field));
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [answer, answers, settings]);
 
@@ -165,41 +167,19 @@ const App = () => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [field, settings.letters, answers, hints, active]);
 
-	useEffect(() => {
-		resetGame();
-	}, [settings]);
-
 	return (
 		<div className="App">
-			<h1>WERDLE({JSON.stringify(answer)})</h1>
-			<button onClick={() => resetGame()}>new game</button>
-			<button onClick={() => setSettings({ ...settings, letters: 4 })}>
-				4
-			</button>
-			<button onClick={() => setSettings({ ...settings, letters: 5 })}>
-				5
-			</button>
-			<button onClick={() => setSettings({ ...settings, letters: 6 })}>
-				6
-			</button>
-			<button onClick={() => setSettings({ ...settings, tries: 5 })}>
-				5 tries
-			</button>
-			<button onClick={() => setSettings({ ...settings, tries: 6 })}>
-				6 tries
-			</button>
-			<button
-				onClick={() => setSettings({ ...settings, letters: 5, tries: 6 })}
-			>
-				reset settings
-			</button>
+			<h1>WERDLE</h1>
 			{!!answer?.length && (
 				<>
-					<Board
-						settings={settings}
-						words={answers}
-						currentRow={answers.length < settings.tries ? currentRow : null}
-					/>
+					<div className="container">
+						<Button label="new game" onClick={() => resetGame()} />
+						<Board
+							settings={settings}
+							words={answers}
+							currentRow={answers.length < settings.tries ? currentRow : null}
+						/>
+					</div>
 					<Keyboard
 						settings={settings}
 						field={field}

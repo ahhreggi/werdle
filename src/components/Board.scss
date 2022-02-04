@@ -1,25 +1,41 @@
 @import "../styles/global.scss";
 
 .Board {
-	padding: 50px;
+	margin-top: 2vh;
 	.LetterRow {
 		@include flex-center;
 		flex-direction: "row";
 		.Square {
-			height: 50px;
-			width: 50px;
+			height: 5vh;
+			width: 5vh;
+			max-height: 50px;
+			max-width: 50px;
 			@include flex-center;
 			flex-direction: "row";
-			margin: 5px;
+			margin: 0.5vh;
 			border: 2px solid $light;
 			.letter {
-				font-size: 36px;
+				font-size: 4vh;
 				margin-top: -4px;
 			}
 			&.bg-green,
 			&.bg-yellow,
 			&.bg-dark {
 				border-color: transparent;
+			}
+		}
+	}
+}
+
+@media screen and (max-height: 480px) {
+	.Board {
+		margin-bottom: 5px;
+		.LetterRow {
+			.Square {
+				margin: 1px;
+				border-width: 1px;
+				min-width: 15px;
+				min-height: 15px;
 			}
 		}
 	}
