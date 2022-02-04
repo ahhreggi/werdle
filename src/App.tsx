@@ -10,6 +10,7 @@ import { compareHints } from "components/helpers";
 import { words } from "data/words";
 
 const App = () => {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const [settings, setSettings] = useState<Settings>({
 		letters: 5,
 		tries: 6,
@@ -40,6 +41,7 @@ const App = () => {
 	};
 	useEffect(() => {
 		setAnswer(generateAnswer());
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [settings.tries]);
 
 	useEffect(() => {

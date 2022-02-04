@@ -72,7 +72,7 @@ const Row = ({ keys, active, onClick, field, error }: RowParams) => {
 				/>
 			))
 		);
-	}, [keys, active, field, onClick]);
+	}, [keys, active, field, onClick, error]);
 	return <div className="Row">{row}</div>;
 };
 
