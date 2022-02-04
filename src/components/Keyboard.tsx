@@ -50,11 +50,11 @@ const Row = ({ keys, active, onClick, field, error }: RowParams) => {
 			} else if (!active && key.value === "ENTER") {
 				return true;
 			} else if (error) {
-				if (error === "word not found" && key.value === "BACK") {
+				if (error === "word&nbsp;not&nbsp;found" && key.value === "BACK") {
 					return true;
 				} else if (
-					error === "not enough letters" ||
-					error === "new game started!"
+					error === "not&nbsp;enough&nbsp;letters" ||
+					error === "new&nbsp;game&nbsp;started!"
 				) {
 					return true;
 				}
