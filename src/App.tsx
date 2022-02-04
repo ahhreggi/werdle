@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 // import { useSelector, useDispatch } from "react-redux";
 import "./App.scss";
 import Board from "components/Board";
@@ -25,6 +25,7 @@ const App = () => {
 	);
 	const [active, setActive] = useState<boolean>(true);
 	const [error, setError] = useState<string>("");
+	const [showAnswer, setShowAnswer] = useState<boolean>(false);
 	const [bank, setBank] = useState<string[]>(
 		words[settings.letters.toString()]
 	);
@@ -35,7 +36,6 @@ const App = () => {
 
 	const generateAnswer = () => {
 		const answer = bank[Math.floor(Math.random() * bank.length)];
-		console.log("ANSWER:", answer);
 		return Array.from(answer);
 	};
 	useEffect(() => {
@@ -63,7 +63,7 @@ const App = () => {
 				isCurrent={active ? true : false}
 			/>
 		);
-	}, [fieldWord, active]);
+	}, [fieldWord, active, showAnswer]);
 
 	const getStatus = (
 		answers: Word[],
@@ -72,7 +72,18 @@ const App = () => {
 		field: string
 	) => {
 		let result = true;
-		if (answers.length === settings.tries || answer.join("") === field) {
+		const secret = answer.join("");
+		if (answers.length === settings.tries || secret === field) {
+			result = false;
+		}
+		if (answers.length === settings.tries) {
+			const finalAnswer = answers[settings.tries - 1]
+				.map((letter) => letter.value)
+				.join("");
+			if (finalAnswer !== secret) {
+				setShowAnswer(true);
+				result = false;
+			}
 			result = false;
 		}
 		return result;
@@ -88,6 +99,7 @@ const App = () => {
 		setAnswers([]);
 		setHints({});
 		setError("new game started!");
+		setShowAnswer(false);
 	};
 
 	const addRow = (word: Word) => {
@@ -190,6 +202,10 @@ const App = () => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [field, settings.letters, answers, hints, active]);
 
+	useEffect(() => {
+		setError("");
+	}, [field]);
+
 	// useEffect(() => {
 	// 	if (!error) return;
 	// 	const timeout = setTimeout(() => {
@@ -200,9 +216,6 @@ const App = () => {
 	// 	};
 	// }, [error]);
 
-	useEffect(() => {
-		setError("");
-	}, [field]);
 	return (
 		<div className="App">
 			<h1>WERDLE</h1>
@@ -221,8 +234,15 @@ const App = () => {
 							settings={settings}
 							words={answers}
 							currentRow={answers.length < settings.tries ? currentRow : null}
+							showAnswer={showAnswer}
 						/>
-						<div className="error-container">{error}</div>
+						<div className="error-container">
+							{error ||
+								(!active && showAnswer
+									? `the answer was: ${answer.join("")}`
+									: "")}
+							{!active && !showAnswer ? "you won!" : ""}
+						</div>
 					</div>
 
 					<Keyboard

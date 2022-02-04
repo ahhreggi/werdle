@@ -17,11 +17,12 @@
 			.letter {
 				font-size: 4vh;
 				margin-top: -4px;
-				margin-left: -2px;
+				margin-left: px;
 			}
 			&.bg-green,
 			&.bg-yellow,
-			&.bg-dark {
+			&.bg-dark,
+			&.bg-red {
 				border-color: transparent;
 			}
 		}
