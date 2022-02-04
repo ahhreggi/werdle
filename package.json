@@ -1,11 +1,11 @@
 {
-  "name": "clean-repo",
+  "name": "werdle",
   "version": "0.1.0",
   "author": "Maria Regina Sirilan",
   "private": true,
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ahhreggi/clean-repo.git"
+    "url": "git+https://github.com/ahhreggi/werdle.git"
   },
   "license": "MIT",
   "dependencies": {

@@ -2,7 +2,7 @@
 <div align="center">
 <img src="public/logo.png" width="150px">
 <p>
-<h1>App Name</h1>
+<h1>Werdle</h1>
 <p>App description
 </p>
 
@@ -38,7 +38,7 @@ The project is live
 
 1. Clone or download this repository
    ```
-   git clone https://github.com/ahhreggi/clean-repo
+   git clone https://github.com/ahhreggi/werdle
    ```
 2. Navigate to the project directory and install dependencies
    ```
