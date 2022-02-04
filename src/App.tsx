@@ -242,8 +242,8 @@ const App = () => {
 							{error ||
 								(!active && showAnswer
 									? `the answer was: ${answer.join("")}`
-									: "")}
-							{!active && !showAnswer ? "you won!" : ""}
+									: "") ||
+								(!active && !showAnswer ? "you won!" : "")}
 						</div>
 					</div>
 
