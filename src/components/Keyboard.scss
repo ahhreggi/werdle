@@ -18,11 +18,12 @@
 			transition: 0.1s;
 			outline: none;
 			border-style: none;
-			opacity: 0.9;
+			opacity: 0.5;
 			&.wide {
 				width: 70px;
 			}
 			&.active {
+				opacity: 0.9;
 				&:hover {
 					cursor: pointer;
 					opacity: 1;

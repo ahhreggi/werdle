@@ -11,6 +11,7 @@ const App = () => {
 	const [settings, setSettings] = useState<Settings>({
 		letters: 5,
 		tries: 6,
+		// allow non-words: boolean
 	});
 	const [answers, setAnswers] = useState<Word[]>([]);
 	const [hints, setHints] = useState<Hints<string>>({});
@@ -110,53 +111,60 @@ const App = () => {
 		addRow(submittedRow);
 	};
 
-	const keyHandler = (event: KeyboardEvent) => {
-		const key = event.code;
-		if (key === "Tab") {
-			event.preventDefault();
-		} else if (key.includes("Key") || key === "Backspace" || key === "Enter") {
-			onPressKey(key);
+	// ERROR: Not seeing field change
+	const onPressKey = (key: string, currentField: string) => {
+		if (key === "Backspace") {
+			setField(currentField.slice(0, currentField.length - 1));
+		} else if (key === "Enter") {
+			if (!active) {
+				console.log("RESETTING GAME");
+				resetGame();
+			} else if (currentField.length !== settings.letters) {
+				showError("invalid word");
+			} else {
+				onSubmit(currentField);
+			}
+		} else {
+			if (!active || currentField.length >= settings.letters) return;
+			const letter = key.replace("Key", "");
+			setField(currentField + letter);
 		}
 	};
 	useEffect(() => {
+		const keyHandler = (event: KeyboardEvent) => {
+			const key = event.code;
+			if (key === "Tab") {
+				event.preventDefault();
+			} else if (
+				key.includes("Key") ||
+				key === "Backspace" ||
+				key === "Enter"
+			) {
+				onPressKey(key, field);
+			}
+		};
 		document.addEventListener("keydown", keyHandler, false);
 		return () => {
 			document.removeEventListener("keydown", keyHandler, false);
 		};
 	}, [field, settings.letters, answers, hints, active]);
 
-	const onPressKey = (key: string) => {
-		if (key === "Backspace") {
-			setField((field) => field.slice(0, field.length - 1));
-		} else if (key === "Enter") {
-			if (!active) {
-				console.log("RESETTING GAME");
-				resetGame();
-			} else if (field.length !== settings.letters) {
-				showError("invalid word");
-			} else {
-				onSubmit(field);
-			}
-		} else {
-			if (!active || field.length >= settings.letters) return;
-			const letter = key.replace("Key", "");
-			setField((field) => field + letter);
-		}
-	};
-
 	return (
 		<div className="App">
 			<h1>WERDLE</h1>
 			<Board
-				numRows={settings.tries}
-				numLetters={settings.letters}
+				settings={settings}
 				words={answers}
-				currentRow={answers.length <= settings.tries ? currentRow : null}
+				currentRow={answers.length < settings.tries ? currentRow : null}
 			/>
 			<Keyboard
+				settings={settings}
+				field={field}
 				hints={hints}
 				active={active}
-				onClick={(key: string) => onPressKey(key)}
+				onClick={(key: string, field: string) => {
+					onPressKey(key, field);
+				}}
 			/>
 		</div>
 	);

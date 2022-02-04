@@ -1,14 +1,16 @@
 import { useState, useEffect } from "react";
 import "./Keyboard.scss";
-import { Hints, Key } from "./types";
+import { Settings, Hints, Key } from "./types";
 import { getHintColor } from "./helpers";
 
 type KeyParams = {
 	config: Key;
 	active: boolean;
-	onClick: (key: string) => void;
+	onClick: (key: string, field: string) => void;
+	settings: Settings;
+	field: string;
 };
-const KeyButton = ({ config, active, onClick }: KeyParams) => {
+const KeyButton = ({ config, active, onClick, settings, field }: KeyParams) => {
 	return (
 		<button
 			className={`KeyButton bg-${config.color} ${config.wide ? "wide" : ""} ${
@@ -26,7 +28,7 @@ const KeyButton = ({ config, active, onClick }: KeyParams) => {
 					default:
 						key = "Key" + config.value;
 				}
-				onClick(key);
+				onClick(key, field);
 			}}
 		>
 			{config.value}
@@ -36,9 +38,11 @@ const KeyButton = ({ config, active, onClick }: KeyParams) => {
 type RowParams = {
 	keys: Key[];
 	active: boolean;
-	onClick: (key: string) => void;
+	onClick: (key: string, field: string) => void;
+	settings: Settings;
+	field: string;
 };
-const Row = ({ keys, active, onClick }: RowParams) => {
+const Row = ({ keys, active, onClick, settings, field }: RowParams) => {
 	const [row, setRow] = useState<JSX.Element[]>([]);
 	useEffect(() => {
 		setRow(
@@ -47,7 +51,9 @@ const Row = ({ keys, active, onClick }: RowParams) => {
 					key={index}
 					config={key}
 					active={key.value === "ENTER" ? true : active}
-					onClick={onClick}
+					onClick={(key: string, field: string) => onClick(key, field)}
+					settings={settings}
+					field={field}
 				/>
 			))
 		);
@@ -56,11 +62,19 @@ const Row = ({ keys, active, onClick }: RowParams) => {
 };
 
 type KeyboardParams = {
+	settings: Settings;
+	field: string;
 	hints: Hints<string>;
 	active: boolean;
-	onClick: (key: string) => void;
+	onClick: (key: string, field: string) => void;
 };
-const Keyboard = ({ hints, active, onClick }: KeyboardParams) => {
+const Keyboard = ({
+	settings,
+	field,
+	hints,
+	active,
+	onClick,
+}: KeyboardParams) => {
 	const [rows, setRows] = useState<JSX.Element[]>([]);
 	useEffect(() => {
 		const row1 = [
@@ -224,22 +238,28 @@ const Keyboard = ({ hints, active, onClick }: KeyboardParams) => {
 				key={1}
 				keys={getHintedRow(row1, hints)}
 				active={active}
-				onClick={(key: string) => onClick(key)}
+				onClick={onClick}
+				settings={settings}
+				field={field}
 			/>,
 			<Row
 				key={2}
 				keys={getHintedRow(row2, hints)}
 				active={active}
-				onClick={(key: string) => onClick(key)}
+				onClick={onClick}
+				settings={settings}
+				field={field}
 			/>,
 			<Row
 				key={3}
 				keys={getHintedRow(row3, hints)}
 				active={active}
-				onClick={(key: string) => onClick(key)}
+				onClick={onClick}
+				settings={settings}
+				field={field}
 			/>,
 		]);
-	}, [hints, active]);
+	}, [hints, active, settings, field]);
 	return <div className="Keyboard">{rows}</div>;
 };
 

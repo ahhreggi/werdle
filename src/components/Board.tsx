@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import "./Board.scss";
-import type { Letter, Word } from "./types";
+import type { Settings, Letter, Word } from "./types";
 import { getHintColor } from "./helpers";
 
 type SquareParams = {
@@ -29,19 +29,21 @@ export const LetterRow = ({ letters }: LetterRowParams) => {
 };
 
 type BoardParams = {
-	numRows: number;
-	numLetters: number;
+	settings: Settings;
 	words: Word[];
 	currentRow: JSX.Element | null;
 };
-const Board = ({ numRows, numLetters, words, currentRow }: BoardParams) => {
+const Board = ({ settings, words, currentRow }: BoardParams) => {
 	const [rows, setRows] = useState<JSX.Element[]>([]);
 	useEffect(() => {
 		const wordsList = [...words];
-		const isFull = words.length === numRows;
+		const isFull = words.length === settings.tries;
 		if (!isFull) {
-			const emptyRow = Array(numLetters).fill({ value: null, hint: null });
-			while (wordsList.length < numRows) {
+			const emptyRow = Array(settings.letters).fill({
+				value: null,
+				hint: null,
+			});
+			while (wordsList.length < settings.tries) {
 				wordsList.push(emptyRow);
 			}
 		}
@@ -52,7 +54,7 @@ const Board = ({ numRows, numLetters, words, currentRow }: BoardParams) => {
 			letterRows.splice(words.length, 1, currentRow);
 		}
 		setRows(letterRows);
-	}, [words, currentRow, numRows, numLetters]);
+	}, [words, currentRow, settings]);
 	return <div className="Board">{rows}</div>;
 };
 
