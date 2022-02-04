@@ -2,6 +2,7 @@
 // import { useSelector, useDispatch } from "react-redux";
 import "./App.scss";
 import Board from "components/Board";
+import Keyboard from "components/Keyboard";
 
 const wordsList = [
 	[
@@ -48,28 +49,6 @@ const wordsList = [
 			hint: "correct",
 		},
 	],
-	[
-		{
-			value: null,
-			hint: null,
-		},
-		{
-			value: null,
-			hint: null,
-		},
-		{
-			value: null,
-			hint: null,
-		},
-		{
-			value: null,
-			hint: null,
-		},
-		{
-			value: null,
-			hint: null,
-		},
-	],
 ];
 
 const App = () => {
@@ -77,6 +56,7 @@ const App = () => {
 		<div className="App">
 			<h1>WERDLE</h1>
 			<Board numRows={6} numLetters={5} words={wordsList} />
+			<Keyboard />
 		</div>
 	);
 };

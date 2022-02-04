@@ -18,14 +18,16 @@ const Square = ({ letter }: SquareParams) => {
 		case "partial":
 			color = "yellow";
 			break;
-		default:
 		case "incorrect":
 			color = "dark";
 			break;
+		default:
+		case null:
+			color = "black";
 	}
 	return (
 		<div className={`Square bg-${color}`}>
-			<div className="letter">{letter.value}</div>
+			{!!letter.value && <div className="letter">{letter.value}</div>}
 		</div>
 	);
 };
@@ -49,7 +51,7 @@ type BoardParams = {
 	words: Word[];
 };
 const Board = ({ numRows, numLetters, words }: BoardParams) => {
-	const isFull = words.length < numRows;
+	const isFull = words.length === numRows;
 	if (!isFull) {
 		const emptyRow = Array(numLetters).fill({ value: null, hint: null });
 		while (words.length < numRows) {
