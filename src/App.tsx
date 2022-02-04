@@ -13,19 +13,14 @@ const App = () => {
 		letters: 5,
 		tries: 6,
 	});
-	const [answers, setAnswers] = useState<Word[]>([
-		// [{ value: "I", hint: null }],
-		// [{ value: "I", hint: null }],
-	]);
+	const [answers, setAnswers] = useState<Word[]>([]);
 	const [hints, setHints] = useState<Hints<string>>({});
 	const [field, setField] = useState<string>("");
 	const [fieldWord, setFieldWord] = useState<Word>([]);
 	const [currentRow, setCurrentRow] = useState<JSX.Element>(
 		<LetterRow key={"currentRow"} letters={[]} />
 	);
-
 	useEffect(() => {
-		console.log(field);
 		const word = Array.from(field).map((letter, index) => {
 			return { value: letter.toUpperCase(), hint: null };
 		});
@@ -43,6 +38,36 @@ const App = () => {
 			<LetterRow key={"currentRow"} letters={updatedCurrentRowLetters} />
 		);
 	}, [fieldWord]);
+
+	const showError = (msg: string) => {
+		alert(msg);
+	};
+
+	const keyHandler = (event: any) => {
+		const key = event.code;
+		if (key === "Tab") {
+			event.preventDefault();
+		} else if (key.includes("Key")) {
+			if (field.length === settings.letters) return;
+			const letter = key.replace("Key", "");
+			setField(field + letter);
+		} else if (key === "Backspace") {
+			setField(field.slice(0, field.length - 1));
+		} else if (key === "Enter") {
+			if (field.length !== settings.letters) {
+				showError("invalid word");
+			} else {
+				onSubmit(field);
+			}
+		}
+	};
+
+	useEffect(() => {
+		document.addEventListener("keydown", keyHandler, false);
+		return () => {
+			document.removeEventListener("keydown", keyHandler, false);
+		};
+	}, [answer]);
 
 	const addRow = (word: Word) => {
 		setAnswers([...answers, word]);
@@ -90,6 +115,7 @@ const App = () => {
 		}
 		addHints(submittedRow);
 		addRow(submittedRow);
+		setField("");
 	};
 
 	return (
@@ -100,11 +126,6 @@ const App = () => {
 				numLetters={settings.letters}
 				words={answers}
 				currentRow={currentRow}
-			/>
-			<input
-				value={field}
-				onChange={(e) => setField(e.target.value)}
-				maxLength={settings.letters}
 			/>
 			<Keyboard hints={hints} />
 		</div>
