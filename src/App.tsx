@@ -19,6 +19,7 @@ const App = () => {
 	const [currentRow, setCurrentRow] = useState<JSX.Element>(
 		<LetterRow key={"currentRow"} letters={[]} />
 	);
+	const [active, setActive] = useState<boolean>(true);
 
 	useEffect(() => {
 		const word = Array.from(field).map((letter) => {
@@ -43,81 +44,105 @@ const App = () => {
 		alert(msg);
 	};
 
+	const answer = ["S", "H", "A", "R", "D"];
+
+	const getStatus = () => {
+		if (answers.length === settings.tries) return false;
+		if (answer.join("") === field) return false;
+		return true;
+	};
+
 	useEffect(() => {
-		const answer = ["S", "H", "A", "R", "D"];
+		setActive(getStatus());
+		setField("");
+	}, [answers]);
 
-		const addRow = (word: Word) => {
-			setAnswers([...answers, word]);
-		};
+	const resetGame = () => {
+		setAnswers([]);
+		setHints({});
+	};
 
-		const addHints = (word: Word) => {
-			const newHints: Hints<string> = {};
-			for (const letter of word) {
-				const { value, hint } = letter;
-				if (hint && value) {
-					const currentHint = hints[value];
-					if (!(value in newHints)) {
-						if (!currentHint) {
-							newHints[value] = hint;
-						} else if (compareHints(currentHint, hint)) {
-							newHints[value] = hint;
-						}
-					} else {
-						const currentHint = newHints[value];
-						if (compareHints(currentHint, hint)) {
-							newHints[value] = hint;
-						}
+	const addRow = (word: Word) => {
+		setAnswers([...answers, word]);
+	};
+
+	const addHints = (word: Word) => {
+		const newHints: Hints<string> = {};
+		for (const letter of word) {
+			const { value, hint } = letter;
+			if (hint && value) {
+				const currentHint = hints[value];
+				if (!(value in newHints)) {
+					if (!currentHint) {
+						newHints[value] = hint;
+					} else if (compareHints(currentHint, hint)) {
+						newHints[value] = hint;
+					}
+				} else {
+					const currentHint = newHints[value];
+					if (compareHints(currentHint, hint)) {
+						newHints[value] = hint;
 					}
 				}
 			}
-			setHints({ ...hints, ...newHints });
-		};
+		}
+		setHints({ ...hints, ...newHints });
+	};
 
-		const onSubmit = (word: string) => {
-			const submittedRow: Word = [];
-			const ans = [...answer];
-			for (let i = 0; i < settings.letters; i++) {
-				const letter = word[i];
-				let hint;
-				if (ans[i] === letter) {
-					hint = "correct";
-					ans[i] = "-";
-				} else if (ans.includes(letter)) {
-					hint = "partial";
-					ans[ans.indexOf(letter)] = "-";
-				} else {
-					hint = "incorrect";
-				}
-				submittedRow.push({ value: letter, hint });
+	const onSubmit = (word: string) => {
+		const submittedRow: Word = [];
+		const ans = [...answer];
+		for (let i = 0; i < settings.letters; i++) {
+			const letter = word[i];
+			let hint;
+			if (ans[i] === letter) {
+				hint = "correct";
+				ans[i] = "-";
+			} else if (ans.includes(letter)) {
+				hint = "partial";
+				ans[ans.indexOf(letter)] = "-";
+			} else {
+				hint = "incorrect";
 			}
-			addHints(submittedRow);
-			addRow(submittedRow);
-			setField("");
-		};
+			submittedRow.push({ value: letter, hint });
+		}
+		addHints(submittedRow);
+		addRow(submittedRow);
+	};
 
-		const keyHandler = (event: KeyboardEvent) => {
-			const key = event.code;
-			if (key === "Tab") {
-				event.preventDefault();
-			} else if (key.includes("Key")) {
-				if (field.length === settings.letters) return;
-				const letter = key.replace("Key", "");
-				setField((field) => field + letter);
-			} else if (key === "Backspace") {
-				setField((field) => field.slice(0, field.length - 1));
-			} else if (key === "Enter") {
-				if (field.length !== settings.letters) {
-					showError("invalid word");
-				} else {
-					onSubmit(field);
-				}
-			}
-		};
+	const keyHandler = (event: KeyboardEvent) => {
+		const key = event.code;
+		if (key === "Tab") {
+			event.preventDefault();
+		} else if (key.includes("Key") || key === "Backspace" || key === "Enter") {
+			onPressKey(key);
+		}
+	};
+	useEffect(() => {
 		document.addEventListener("keydown", keyHandler, false);
 		return () => {
 			document.removeEventListener("keydown", keyHandler, false);
 		};
-	}, [field, settings.letters, answers, hints]);
+	}, [field, settings.letters, answers, hints, active]);
+
+	const onPressKey = (key: string) => {
+		if (key === "Backspace") {
+			setField((field) => field.slice(0, field.length - 1));
+		} else if (key === "Enter") {
+			if (!active) {
+				console.log("RESETTING GAME");
+				resetGame();
+			} else if (field.length !== settings.letters) {
+				showError("invalid word");
+			} else {
+				onSubmit(field);
+			}
+		} else {
+			if (!active || field.length >= settings.letters) return;
+			const letter = key.replace("Key", "");
+			setField((field) => field + letter);
+		}
+	};
 
 	return (
 		<div className="App">
@@ -126,9 +151,13 @@ const App = () => {
 				numRows={settings.tries}
 				numLetters={settings.letters}
 				words={answers}
-				currentRow={currentRow}
+				currentRow={answers.length <= settings.tries ? currentRow : null}
 			/>
-			<Keyboard hints={hints} />
+			<Keyboard
+				hints={hints}
+				active={active}
+				onClick={(key: string) => onPressKey(key)}
+			/>
 		</div>
 	);
 };

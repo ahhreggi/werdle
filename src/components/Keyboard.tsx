@@ -5,31 +5,62 @@ import { getHintColor } from "./helpers";
 
 type KeyParams = {
 	config: Key;
+	active: boolean;
+	onClick: (key: string) => void;
 };
-const KeyButton = ({ config }: KeyParams) => {
+const KeyButton = ({ config, active, onClick }: KeyParams) => {
 	return (
-		<div
-			className={`KeyButton bg-${config.color} ${config.wide ? "wide" : ""}`}
+		<button
+			className={`KeyButton bg-${config.color} ${config.wide ? "wide" : ""} ${
+				active ? "active" : ""
+			}`}
+			onClick={() => {
+				let key = "";
+				switch (config.value) {
+					case "ENTER":
+						key = "Enter";
+						break;
+					case "BACK":
+						key = "Backspace";
+						break;
+					default:
+						key = "Key" + config.value;
+				}
+				onClick(key);
+			}}
 		>
 			{config.value}
-		</div>
+		</button>
 	);
 };
 type RowParams = {
 	keys: Key[];
+	active: boolean;
+	onClick: (key: string) => void;
 };
-const Row = ({ keys }: RowParams) => {
+const Row = ({ keys, active, onClick }: RowParams) => {
 	const [row, setRow] = useState<JSX.Element[]>([]);
 	useEffect(() => {
-		setRow(keys.map((key, index) => <KeyButton key={index} config={key} />));
-	}, [keys]);
+		setRow(
+			keys.map((key, index) => (
+				<KeyButton
+					key={index}
+					config={key}
+					active={key.value === "ENTER" ? true : active}
+					onClick={onClick}
+				/>
+			))
+		);
+	}, [keys, active]);
 	return <div className="Row">{row}</div>;
 };
 
 type KeyboardParams = {
 	hints: Hints<string>;
+	active: boolean;
+	onClick: (key: string) => void;
 };
-const Keyboard = ({ hints }: KeyboardParams) => {
+const Keyboard = ({ hints, active, onClick }: KeyboardParams) => {
 	const [rows, setRows] = useState<JSX.Element[]>([]);
 	useEffect(() => {
 		const row1 = [
@@ -189,11 +220,26 @@ const Keyboard = ({ hints }: KeyboardParams) => {
 			return result;
 		};
 		setRows([
-			<Row key={1} keys={getHintedRow(row1, hints)} />,
-			<Row key={2} keys={getHintedRow(row2, hints)} />,
-			<Row key={3} keys={getHintedRow(row3, hints)} />,
+			<Row
+				key={1}
+				keys={getHintedRow(row1, hints)}
+				active={active}
+				onClick={(key: string) => onClick(key)}
+			/>,
+			<Row
+				key={2}
+				keys={getHintedRow(row2, hints)}
+				active={active}
+				onClick={(key: string) => onClick(key)}
+			/>,
+			<Row
+				key={3}
+				keys={getHintedRow(row3, hints)}
+				active={active}
+				onClick={(key: string) => onClick(key)}
+			/>,
 		]);
-	}, [hints]);
+	}, [hints, active]);
 	return <div className="Keyboard">{rows}</div>;
 };
 

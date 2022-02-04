@@ -8,13 +8,28 @@
 		@include flex-center;
 		margin: 2px 0;
 		.KeyButton {
+			color: $white;
+			padding: 0;
 			height: 60px;
 			width: 45px;
 			margin: 3px;
 			@include flex-center;
 			border-radius: 5px;
+			transition: 0.1s;
+			outline: none;
+			border-style: none;
+			opacity: 0.9;
 			&.wide {
 				width: 70px;
+			}
+			&.active {
+				&:hover {
+					cursor: pointer;
+					opacity: 1;
+				}
+				&:active {
+					opacity: 0.5;
+				}
 			}
 		}
 	}

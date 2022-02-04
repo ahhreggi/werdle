@@ -32,7 +32,7 @@ type BoardParams = {
 	numRows: number;
 	numLetters: number;
 	words: Word[];
-	currentRow: JSX.Element;
+	currentRow: JSX.Element | null;
 };
 const Board = ({ numRows, numLetters, words, currentRow }: BoardParams) => {
 	const [rows, setRows] = useState<JSX.Element[]>([]);
@@ -41,14 +41,16 @@ const Board = ({ numRows, numLetters, words, currentRow }: BoardParams) => {
 		const isFull = words.length === numRows;
 		if (!isFull) {
 			const emptyRow = Array(numLetters).fill({ value: null, hint: null });
-			while (wordsList.length < numRows - 1) {
+			while (wordsList.length < numRows) {
 				wordsList.push(emptyRow);
 			}
 		}
 		const letterRows = wordsList.map((word, i) => (
 			<LetterRow key={i} letters={word} />
 		));
-		letterRows.splice(words.length, 0, currentRow);
+		if (currentRow) {
+			letterRows.splice(words.length, 1, currentRow);
+		}
 		setRows(letterRows);
 	}, [words, currentRow, numRows, numLetters]);
 	return <div className="Board">{rows}</div>;
