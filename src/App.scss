@@ -34,7 +34,6 @@
 			min-width: 95vw;
 			text-align: center;
 			border: 1px solid red;
-			line-height: 0;
 		}
 	}
 }
@@ -50,6 +49,7 @@
 				}
 			}
 			.error-container {
+				margin-top: 0;
 				margin: 1vh;
 			}
 		}
