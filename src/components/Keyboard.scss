@@ -28,19 +28,10 @@
 				min-width: 24px;
 				max-height: 50px;
 				margin: 1px 2px;
-				font-size: 10px;
+				font-size: 12px;
 				&.wide {
 					width: 13.5vw;
 				}
-			}
-		}
-	}
-}
-@media screen and (max-height: 800px) {
-	.Keyboard {
-		margin-bottom: 2px;
-		.Row {
-			.KeyButton {
 			}
 		}
 	}
