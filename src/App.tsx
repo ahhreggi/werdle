@@ -47,16 +47,21 @@ const App = () => {
 
 	const answer = ["S", "H", "A", "R", "D"];
 
-	const getStatus = () => {
+	const getStatus = (
+		answers: Word[],
+		settings: Settings,
+		answer: string[],
+		field: string
+	) => {
 		if (answers.length === settings.tries) return false;
 		if (answer.join("") === field) return false;
 		return true;
 	};
-
 	useEffect(() => {
-		setActive(getStatus());
+		setActive(getStatus(answers, settings, answer, field));
 		setField("");
-	}, [answers]);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [answers, settings]);
 
 	const resetGame = () => {
 		setAnswers([]);
@@ -147,6 +152,7 @@ const App = () => {
 		return () => {
 			document.removeEventListener("keydown", keyHandler, false);
 		};
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [field, settings.letters, answers, hints, active]);
 
 	return (
