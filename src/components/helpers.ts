@@ -1,5 +1,3 @@
-import { Letter } from "./types";
-
 const getHintColor = (hint: string | null) => {
 	let color;
 	switch (hint) {

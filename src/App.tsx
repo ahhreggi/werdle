@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import "./App.scss";
 import Board from "components/Board";
 import Keyboard from "components/Keyboard";
+import { LetterRow } from "components/Board";
 import type { Hints, Settings, Word } from "./components/types";
 import { compareHints } from "components/helpers";
 
@@ -12,8 +13,36 @@ const App = () => {
 		letters: 5,
 		tries: 6,
 	});
-	const [answers, setAnswers] = useState<Word[]>([]);
+	const [answers, setAnswers] = useState<Word[]>([
+		// [{ value: "I", hint: null }],
+		// [{ value: "I", hint: null }],
+	]);
 	const [hints, setHints] = useState<Hints<string>>({});
+	const [field, setField] = useState<string>("");
+	const [fieldWord, setFieldWord] = useState<Word>([]);
+	const [currentRow, setCurrentRow] = useState<JSX.Element>(
+		<LetterRow key={"currentRow"} letters={[]} />
+	);
+
+	useEffect(() => {
+		console.log(field);
+		const word = Array.from(field).map((letter, index) => {
+			return { value: letter.toUpperCase(), hint: null };
+		});
+		while (word.length < settings.letters) {
+			word.push({ value: "", hint: null });
+		}
+		setFieldWord(word);
+	}, [field]);
+
+	useEffect(() => {
+		const updatedCurrentRowLetters = fieldWord.map((letter) => {
+			return { value: letter.value, hint: letter.hint };
+		});
+		setCurrentRow(
+			<LetterRow key={"currentRow"} letters={updatedCurrentRowLetters} />
+		);
+	}, [fieldWord]);
 
 	const addRow = (word: Word) => {
 		setAnswers([...answers, word]);
@@ -70,6 +99,12 @@ const App = () => {
 				numRows={settings.tries}
 				numLetters={settings.letters}
 				words={answers}
+				currentRow={currentRow}
+			/>
+			<input
+				value={field}
+				onChange={(e) => setField(e.target.value)}
+				maxLength={settings.letters}
 			/>
 			<Keyboard hints={hints} />
 		</div>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, ReactElement } from "react";
+import { useState, useEffect } from "react";
 import "./Board.scss";
 import type { Letter, Word } from "./types";
 import { getHintColor } from "./helpers";
@@ -18,7 +18,7 @@ const Square = ({ letter }: SquareParams) => {
 type LetterRowParams = {
 	letters: Letter[];
 };
-const LetterRow = ({ letters }: LetterRowParams) => {
+export const LetterRow = ({ letters }: LetterRowParams) => {
 	return (
 		<div className="LetterRow">
 			{letters.map((letter, index) => (
@@ -32,20 +32,25 @@ type BoardParams = {
 	numRows: number;
 	numLetters: number;
 	words: Word[];
+	currentRow: JSX.Element;
 };
-const Board = ({ numRows, numLetters, words }: BoardParams) => {
+const Board = ({ numRows, numLetters, words, currentRow }: BoardParams) => {
 	const [rows, setRows] = useState<JSX.Element[]>([]);
 	useEffect(() => {
 		const wordsList = [...words];
-		const isFull = wordsList.length === numRows;
+		const isFull = words.length === numRows;
 		if (!isFull) {
 			const emptyRow = Array(numLetters).fill({ value: null, hint: null });
-			while (wordsList.length < numRows) {
+			while (wordsList.length < numRows - 1) {
 				wordsList.push(emptyRow);
 			}
 		}
-		setRows(wordsList.map((word, i) => <LetterRow key={i} letters={word} />));
-	}, [words]);
+		const letterRows = wordsList.map((word, i) => (
+			<LetterRow key={i} letters={word} />
+		));
+		letterRows.splice(words.length, 0, currentRow);
+		setRows(letterRows);
+	}, [words, currentRow]);
 	return <div className="Board">{rows}</div>;
 };
 
