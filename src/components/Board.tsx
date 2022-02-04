@@ -1,3 +1,4 @@
+import React, { useState, useEffect, ReactElement } from "react";
 import "./Board.scss";
 import type { Letter, Word } from "./types";
 import { getHintColor } from "./helpers";
@@ -33,14 +34,18 @@ type BoardParams = {
 	words: Word[];
 };
 const Board = ({ numRows, numLetters, words }: BoardParams) => {
-	const isFull = words.length === numRows;
-	if (!isFull) {
-		const emptyRow = Array(numLetters).fill({ value: null, hint: null });
-		while (words.length < numRows) {
-			words.push(emptyRow);
+	const [rows, setRows] = useState<JSX.Element[]>([]);
+	useEffect(() => {
+		const wordsList = [...words];
+		const isFull = wordsList.length === numRows;
+		if (!isFull) {
+			const emptyRow = Array(numLetters).fill({ value: null, hint: null });
+			while (wordsList.length < numRows) {
+				wordsList.push(emptyRow);
+			}
 		}
-	}
-	const rows = words.map((word, i) => <LetterRow key={i} letters={word} />);
+		setRows(wordsList.map((word, i) => <LetterRow key={i} letters={word} />));
+	}, [words]);
 	return <div className="Board">{rows}</div>;
 };
 

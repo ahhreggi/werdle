@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import "./Keyboard.scss";
 import { Hints, Key } from "./types";
 import { getHintColor } from "./helpers";
@@ -18,20 +19,17 @@ type RowParams = {
 	keys: Key[];
 };
 const Row = ({ keys }: RowParams) => {
-	return (
-		<div className="Row">
-			{keys.map((key, index) => (
-				<KeyButton key={index} config={key} />
-			))}
-		</div>
-	);
+	const [row, setRow] = useState<JSX.Element[]>([]);
+	useEffect(() => {
+		setRow(keys.map((key, index) => <KeyButton key={index} config={key} />));
+	}, [keys]);
+	return <div className="Row">{row}</div>;
 };
 
 type KeyboardParams = {
 	hints: Hints<string>;
 };
 const Keyboard = ({ hints }: KeyboardParams) => {
-	const { incorrect, partial, correct } = hints;
 	const row1 = [
 		{
 			value: "Q",
@@ -178,26 +176,25 @@ const Keyboard = ({ hints }: KeyboardParams) => {
 			wide: true,
 		},
 	];
-	const getHintedRow = (row: Key[]) => {
-		const result = row.map((key, index) => {
-			if (key.value in hints) {
-				return { ...key, color: getHintColor(hints[key.value]) };
-			} else {
-				return key;
-			}
-		});
-		return result;
-	};
-	const row1colored = getHintedRow(row1);
-	const row2colored = getHintedRow(row2);
-	const row3colored = getHintedRow(row3);
-	return (
-		<div className="Keyboard">
-			<Row keys={row1colored} />
-			<Row keys={row2colored} />
-			<Row keys={row3colored} />
-		</div>
-	);
+	const [rows, setRows] = useState<JSX.Element[]>([]);
+	useEffect(() => {
+		const getHintedRow = (row: Key[], hints: Hints<string>) => {
+			const result = row.map((key) => {
+				if (key.value in hints) {
+					return { ...key, color: getHintColor(hints[key.value]) };
+				} else {
+					return key;
+				}
+			});
+			return result;
+		};
+		setRows([
+			<Row key={1} keys={getHintedRow(row1, hints)} />,
+			<Row key={2} keys={getHintedRow(row2, hints)} />,
+			<Row key={3} keys={getHintedRow(row3, hints)} />,
+		]);
+	}, [hints]);
+	return <div className="Keyboard">{rows}</div>;
 };
 
 export default Keyboard;

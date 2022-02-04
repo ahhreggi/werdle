@@ -1,4 +1,8 @@
 // App
+export type Settings = {
+	letters: number;
+	tries: number;
+};
 export type Hints<T> = {
 	[key: string]: T;
 };

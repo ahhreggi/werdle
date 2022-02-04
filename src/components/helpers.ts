@@ -1,3 +1,5 @@
+import { Letter } from "./types";
+
 const getHintColor = (hint: string | null) => {
 	let color;
 	switch (hint) {
@@ -11,10 +13,17 @@ const getHintColor = (hint: string | null) => {
 			color = "dark";
 			break;
 		default:
-		case null:
 			color = "black";
 	}
 	return color;
 };
 
-export { getHintColor };
+const compareHints = (prevHint: string, newHint: string) => {
+	return (
+		newHint === "correct" ||
+		(newHint === "partial" && prevHint === "incorrect") ||
+		(newHint === "incorrect" && !["correct", "partial"].includes(prevHint))
+	);
+};
+
+export { getHintColor, compareHints };

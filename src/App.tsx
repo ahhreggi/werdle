@@ -3,82 +3,47 @@ import { useState, useEffect } from "react";
 import "./App.scss";
 import Board from "components/Board";
 import Keyboard from "components/Keyboard";
-import type { Hints } from "./components/types";
-
-const wordsList = [
-	[
-		{
-			value: "I",
-			hint: "incorrect",
-		},
-		{
-			value: "R",
-			hint: "partial",
-		},
-		{
-			value: "A",
-			hint: "correct",
-		},
-		{
-			value: "T",
-			hint: "incorrect",
-		},
-		{
-			value: "E",
-			hint: "incorrect",
-		},
-	],
-	[
-		{
-			value: "C",
-			hint: "incorrect",
-		},
-		{
-			value: "L",
-			hint: "incorrect",
-		},
-		{
-			value: "O",
-			hint: "incorrect",
-		},
-		{
-			value: "U",
-			hint: "incorrect",
-		},
-		{
-			value: "D",
-			hint: "correct",
-		},
-	],
-];
+import type { Hints, Settings, Word } from "./components/types";
+import { compareHints } from "components/helpers";
 
 const App = () => {
 	const answer = ["S", "H", "A", "R", "D"];
-	const settings = {
+	const [settings, setSettings] = useState<Settings>({
 		letters: 5,
 		tries: 6,
-	};
-	const [hints, setHints] = useState<Hints<string>>({
-		A: "incorrect",
-		S: "correct",
-		Z: "partial",
 	});
-	const addHint = (hint: string, letter: string) => {
-		if (letter in hints && hints[letter] !== hint) {
-			const currentHint = hints[letter];
-			if (
-				hint === "correct" ||
-				(hint === "partial" && currentHint === "incorrect") ||
-				hint === "incorrect"
-			) {
-				setHints({ ...hints, [letter]: hint });
-			}
-		} else if (!(letter in hints)) {
-			setHints({ ...hints, [letter]: hint });
-		}
+	const [answers, setAnswers] = useState<Word[]>([]);
+	const [hints, setHints] = useState<Hints<string>>({});
+
+	const addRow = (word: Word) => {
+		setAnswers([...answers, word]);
 	};
+
+	const addHints = (word: Word) => {
+		const newHints: Hints<string> = { H: "correct" };
+		for (const letter of word) {
+			const { value, hint } = letter;
+			if (hint && value) {
+				const currentHint = hints[value];
+				if (!(value in newHints)) {
+					if (!currentHint) {
+						newHints[value] = hint;
+					} else if (compareHints(currentHint, hint)) {
+						newHints[value] = hint;
+					}
+				} else {
+					const currentHint = newHints[value];
+					if (compareHints(currentHint, hint)) {
+						newHints[value] = hint;
+					}
+				}
+			}
+		}
+		setHints({ ...hints, ...newHints });
+	};
+
 	const onSubmit = (word: string) => {
-		const submittedRow = [];
+		const submittedRow: Word = [];
 		const ans = [...answer];
 		for (let i = 0; i < settings.letters; i++) {
 			const letter = word[i];
@@ -92,17 +57,19 @@ const App = () => {
 			} else {
 				hint = "incorrect";
 			}
-			addHint(hint, letter);
 			submittedRow.push({ value: letter, hint });
 		}
+		addHints(submittedRow);
+		addRow(submittedRow);
 	};
+
 	return (
 		<div className="App">
 			<h1>WERDLE</h1>
 			<Board
 				numRows={settings.tries}
 				numLetters={settings.letters}
-				words={wordsList}
+				words={answers}
 			/>
 			<Keyboard hints={hints} />
 		</div>
