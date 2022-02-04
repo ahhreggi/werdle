@@ -10,6 +10,7 @@ const Button = ({ onClick, label, active = true }: ButtonParams) => {
 		<button
 			className={`Button ${active ? "active" : ""}`}
 			onClick={() => onClick()}
+			disabled={!active}
 		>
 			{label}
 		</button>

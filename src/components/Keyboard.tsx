@@ -47,6 +47,8 @@ const Row = ({ keys, active, onClick, field, error }: RowParams) => {
 		const checkError = (key: Key, active: boolean, error: string) => {
 			if (!error && active) {
 				return true;
+			} else if (!active && key.value === "ENTER") {
+				return true;
 			} else if (error) {
 				if (error === "word not found" && key.value === "BACK") {
 					return true;

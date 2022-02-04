@@ -164,8 +164,10 @@ const App = () => {
 	useEffect(() => {
 		const keyHandler = (event: KeyboardEvent) => {
 			const key = event.code;
-			if (key === "Tab") {
+			if (key === "Tab" || key === "Enter") {
 				event.preventDefault();
+			}
+			if (key === "Tab") {
 				resetGame();
 			} else if (
 				key.includes("Key") ||
@@ -209,7 +211,11 @@ const App = () => {
 					<div className="container">
 						<div className="menu-container">
 							<Button label="new game" onClick={() => resetGame()} />
-							<Button label="clear row" onClick={() => setField("")} />
+							<Button
+								label="clear row"
+								onClick={() => setField("")}
+								active={active && !!field.length}
+							/>
 						</div>
 						<Board
 							settings={settings}

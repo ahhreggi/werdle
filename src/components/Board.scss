@@ -17,6 +17,7 @@
 			.letter {
 				font-size: 4vh;
 				margin-top: -4px;
+				margin-left: -2px;
 			}
 			&.bg-green,
 			&.bg-yellow,
@@ -42,6 +43,9 @@
 				border-width: 1px;
 				min-width: 15px;
 				min-height: 15px;
+				.letter {
+					margin: 0;
+				}
 			}
 		}
 	}
