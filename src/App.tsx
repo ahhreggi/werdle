@@ -100,7 +100,7 @@ const App = () => {
 		setAnswer(generateAnswer());
 		setAnswers([]);
 		setHints({});
-		setError("new game started!");
+		setError("new&nbsp;game&nbsp;started!");
 		setShowAnswer(false);
 	};
 
@@ -163,9 +163,9 @@ const App = () => {
 			if (!active) {
 				resetGame();
 			} else if (currentField.length !== settings.letters) {
-				setError("not enough letters");
+				setError("not&nbsp;enough&nbsp;letters");
 			} else if (settings.wordsOnly && !validateWord(currentField, bank)) {
-				setError("word not found");
+				setError("word&nbsp;not&nbsp;found");
 			} else {
 				onSubmit(currentField);
 			}
