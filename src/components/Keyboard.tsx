@@ -39,16 +39,32 @@ type RowParams = {
 	active: boolean;
 	onClick: (key: string, field: string) => void;
 	field: string;
+	error: string;
 };
-const Row = ({ keys, active, onClick, field }: RowParams) => {
+const Row = ({ keys, active, onClick, field, error }: RowParams) => {
 	const [row, setRow] = useState<JSX.Element[]>([]);
 	useEffect(() => {
+		const checkError = (key: Key, active: boolean, error: string) => {
+			if (!error && active) {
+				return true;
+			} else if (error) {
+				if (error === "word not found" && key.value === "BACK") {
+					return true;
+				} else if (
+					error === "not enough letters" ||
+					error === "new game started!"
+				) {
+					return true;
+				}
+			}
+			return false;
+		};
 		setRow(
 			keys.map((key, index) => (
 				<KeyButton
 					key={index}
 					config={key}
-					active={key.value === "ENTER" ? true : active}
+					active={checkError(key, active, error)}
 					onClick={(key: string, field: string) => onClick(key, field)}
 					field={field}
 				/>
@@ -64,6 +80,7 @@ type KeyboardParams = {
 	hints: Hints<string>;
 	active: boolean;
 	onClick: (key: string, field: string) => void;
+	error: string;
 };
 const Keyboard = ({
 	settings,
@@ -71,6 +88,7 @@ const Keyboard = ({
 	hints,
 	active,
 	onClick,
+	error,
 }: KeyboardParams) => {
 	const [rows, setRows] = useState<JSX.Element[]>([]);
 	useEffect(() => {
@@ -237,6 +255,7 @@ const Keyboard = ({
 				active={active}
 				onClick={onClick}
 				field={field}
+				error={error}
 			/>,
 			<Row
 				key={2}
@@ -244,6 +263,7 @@ const Keyboard = ({
 				active={active}
 				onClick={onClick}
 				field={field}
+				error={error}
 			/>,
 			<Row
 				key={3}
@@ -251,9 +271,10 @@ const Keyboard = ({
 				active={active}
 				onClick={onClick}
 				field={field}
+				error={error}
 			/>,
 		]);
-	}, [hints, active, settings, field, onClick]);
+	}, [hints, active, settings, field, onClick, error]);
 	return <div className="Keyboard">{rows}</div>;
 };
 

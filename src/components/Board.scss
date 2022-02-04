@@ -24,6 +24,12 @@
 				border-color: transparent;
 			}
 		}
+		&.current {
+			.Square {
+				border-color: $lighter;
+				background-color: $darker;
+			}
+		}
 	}
 }
 
@@ -36,6 +42,19 @@
 				border-width: 1px;
 				min-width: 15px;
 				min-height: 15px;
+			}
+		}
+	}
+}
+
+@media screen and (max-width: 360px) {
+	.Board {
+		.LetterRow {
+			.Square {
+				max-width: 12vw;
+				max-height: 12vw;
+				min-width: 25px;
+				min-height: 25px;
 			}
 		}
 	}

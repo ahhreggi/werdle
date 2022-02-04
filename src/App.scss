@@ -17,10 +17,34 @@
 	}
 	.container {
 		@include flex-center-col;
+		.menu-container {
+			@include flex-center;
+			.Button {
+				width: 120px;
+				padding: 0;
+			}
+		}
+		.error-container {
+			height: 25px;
+			margin: 10px;
+			color: $lighter;
+		}
 	}
 }
 @media screen and (max-height: 480px) {
 	.App {
+		.container {
+			.menu-container {
+				width: 180px;
+				margin-top: 10px;
+				.Button {
+					font-size: 11px;
+				}
+			}
+			.error-container {
+				margin: 1vh;
+			}
+		}
 		h1 {
 			font-size: 24px;
 		}

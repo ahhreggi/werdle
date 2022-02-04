@@ -11,9 +11,9 @@ import { words } from "data/words";
 
 const App = () => {
 	const [settings, setSettings] = useState<Settings>({
-		letters: 6,
+		letters: 5,
 		tries: 6,
-		wordsOnly: false,
+		wordsOnly: true,
 	});
 	const [answer, setAnswer] = useState<string[]>([]);
 	const [answers, setAnswers] = useState<Word[]>([]);
@@ -21,13 +21,20 @@ const App = () => {
 	const [field, setField] = useState<string>("");
 	const [fieldWord, setFieldWord] = useState<Word>([]);
 	const [currentRow, setCurrentRow] = useState<JSX.Element>(
-		<LetterRow key={"currentRow"} letters={[]} />
+		<LetterRow key={"currentRow"} letters={[]} isCurrent={true} />
 	);
 	const [active, setActive] = useState<boolean>(true);
+	const [error, setError] = useState<string>("");
+	const [bank, setBank] = useState<string[]>(
+		words[settings.letters.toString()]
+	);
 
-	const generateAnswer = (length = settings.letters.toString()) => {
-		const wordsList = words[length];
-		const answer = wordsList[Math.floor(Math.random() * wordsList.length)];
+	useEffect(() => {
+		setBank(words[settings.letters.toString()]);
+	}, [settings.letters]);
+
+	const generateAnswer = () => {
+		const answer = bank[Math.floor(Math.random() * bank.length)];
 		console.log("ANSWER:", answer);
 		return Array.from(answer);
 	};
@@ -50,13 +57,13 @@ const App = () => {
 			return { value: letter.value, hint: letter.hint };
 		});
 		setCurrentRow(
-			<LetterRow key={"currentRow"} letters={updatedCurrentRowLetters} />
+			<LetterRow
+				key={"currentRow"}
+				letters={updatedCurrentRowLetters}
+				isCurrent={active ? true : false}
+			/>
 		);
-	}, [fieldWord]);
-
-	const showError = (msg: string) => {
-		alert(msg);
-	};
+	}, [fieldWord, active]);
 
 	const getStatus = (
 		answers: Word[],
@@ -64,9 +71,11 @@ const App = () => {
 		answer: string[],
 		field: string
 	) => {
-		if (answers.length === settings.tries) return false;
-		if (answer.join("") === field) return false;
-		return true;
+		let result = true;
+		if (answers.length === settings.tries || answer.join("") === field) {
+			result = false;
+		}
+		return result;
 	};
 	useEffect(() => {
 		setField("");
@@ -78,6 +87,7 @@ const App = () => {
 		setAnswer(generateAnswer());
 		setAnswers([]);
 		setHints({});
+		setError("new game started!");
 	};
 
 	const addRow = (word: Word) => {
@@ -128,6 +138,10 @@ const App = () => {
 		addRow(submittedRow);
 	};
 
+	const validateWord = (word: string, bank: string[]) => {
+		return bank.includes(word);
+	};
+
 	const onPressKey = (key: string, currentField: string) => {
 		if (key === "Backspace") {
 			setField(currentField.slice(0, currentField.length - 1));
@@ -135,7 +149,9 @@ const App = () => {
 			if (!active) {
 				resetGame();
 			} else if (currentField.length !== settings.letters) {
-				showError("invalid word");
+				setError("not enough letters");
+			} else if (settings.wordsOnly && !validateWord(currentField, bank)) {
+				setError("word not found");
 			} else {
 				onSubmit(currentField);
 			}
@@ -150,6 +166,7 @@ const App = () => {
 			const key = event.code;
 			if (key === "Tab") {
 				event.preventDefault();
+				resetGame();
 			} else if (
 				key.includes("Key") ||
 				key === "Backspace" ||
@@ -157,7 +174,11 @@ const App = () => {
 			) {
 				onPressKey(key, field);
 			} else if (key === "Escape") {
-				resetGame();
+				if (!active) {
+					resetGame();
+				} else {
+					setField("");
+				}
 			}
 		};
 		document.addEventListener("keydown", keyHandler, false);
@@ -167,19 +188,37 @@ const App = () => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [field, settings.letters, answers, hints, active]);
 
+	// useEffect(() => {
+	// 	if (!error) return;
+	// 	const timeout = setTimeout(() => {
+	// 		setError("");
+	// 	}, 2000);
+	// 	return () => {
+	// 		clearTimeout(timeout);
+	// 	};
+	// }, [error]);
+
+	useEffect(() => {
+		setError("");
+	}, [field]);
 	return (
 		<div className="App">
 			<h1>WERDLE</h1>
 			{!!answer?.length && (
 				<>
 					<div className="container">
-						<Button label="new game" onClick={() => resetGame()} />
+						<div className="menu-container">
+							<Button label="new game" onClick={() => resetGame()} />
+							<Button label="clear row" onClick={() => setField("")} />
+						</div>
 						<Board
 							settings={settings}
 							words={answers}
 							currentRow={answers.length < settings.tries ? currentRow : null}
 						/>
+						<div className="error-container">{error}</div>
 					</div>
+
 					<Keyboard
 						settings={settings}
 						field={field}
@@ -188,6 +227,7 @@ const App = () => {
 						onClick={(key: string, field: string) => {
 							onPressKey(key, field);
 						}}
+						error={error}
 					/>
 				</>
 			)}

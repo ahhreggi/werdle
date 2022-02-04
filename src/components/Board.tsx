@@ -17,10 +17,11 @@ const Square = ({ letter }: SquareParams) => {
 
 type LetterRowParams = {
 	letters: Letter[];
+	isCurrent?: boolean;
 };
-export const LetterRow = ({ letters }: LetterRowParams) => {
+export const LetterRow = ({ letters, isCurrent }: LetterRowParams) => {
 	return (
-		<div className="LetterRow">
+		<div className={`LetterRow ${isCurrent ? "current" : ""}`}>
 			{letters.map((letter, index) => (
 				<Square key={index} letter={letter} />
 			))}
