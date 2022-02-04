@@ -239,13 +239,11 @@ const App = () => {
 							showAnswer={showAnswer}
 						/>
 						<div className="error-container">
-							<>
-								{error ||
-									(!active && showAnswer
-										? `the answer was: ${answer.join("")}`
-										: "") ||
-									(!active && !showAnswer ? "you won!" : "")}
-							</>
+							{error ||
+								(!active && showAnswer
+									? `the answer was: ${answer.join("")}`
+									: "") ||
+								(!active && !showAnswer ? "you won!" : "")}
 						</div>
 					</div>
 

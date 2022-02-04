@@ -30,8 +30,8 @@
 			height: 25px;
 			margin-top: 10px;
 			color: $lighter;
-			width: 95vw;
-			min-width: 95vw;
+			width: fit-content;
+			flex-wrap: nowrap;
 			text-align: center;
 			border: 1px solid blue;
 		}
@@ -50,7 +50,6 @@
 			}
 			.error-container {
 				margin: 1vh;
-				border: 1px solid yellow;
 			}
 		}
 		h1 {
@@ -69,7 +68,6 @@
 			.error-container {
 				font-size: 10px;
 				margin-top: 0;
-				border: 1px solid red;
 			}
 		}
 	}
