@@ -100,7 +100,7 @@ const App = () => {
 		setAnswer(generateAnswer());
 		setAnswers([]);
 		setHints({});
-		setError("new&nbsp;game&nbsp;started!");
+		setError("new game started!");
 		setShowAnswer(false);
 	};
 
@@ -163,9 +163,9 @@ const App = () => {
 			if (!active) {
 				resetGame();
 			} else if (currentField.length !== settings.letters) {
-				setError("not&nbsp;enough&nbsp;letters");
+				setError("not enough letters");
 			} else if (settings.wordsOnly && !validateWord(currentField, bank)) {
-				setError("word&nbsp;not&nbsp;found");
+				setError("word not found");
 			} else {
 				onSubmit(currentField);
 			}
@@ -225,9 +225,9 @@ const App = () => {
 				<>
 					<div className="container">
 						<div className="menu-container">
-							<Button label="new&nbsp;game" onClick={() => resetGame()} />
+							<Button label="new game" onClick={() => resetGame()} />
 							<Button
-								label="clear&nbsp;row"
+								label="clear row"
 								onClick={() => setField("")}
 								active={active && !!field.length}
 							/>
