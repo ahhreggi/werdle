@@ -3,7 +3,6 @@
 .Button {
 	@include flex-center;
 	@include custom-button;
-	padding: 20px;
 	height: 40px;
 	text-transform: uppercase;
 	font-family: $font-main;
