@@ -1,6 +1,5 @@
 import "./Keyboard.scss";
-import { Hints } from "../App";
-import { Key } from "./KeyboardTypes";
+import { Hints, Key } from "./types";
 import { getHintColor } from "./helpers";
 
 type KeyParams = {

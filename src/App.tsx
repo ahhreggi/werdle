@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import "./App.scss";
 import Board from "components/Board";
 import Keyboard from "components/Keyboard";
+import type { Hints } from "./components/types";
 
 const wordsList = [
 	[
@@ -50,10 +51,6 @@ const wordsList = [
 		},
 	],
 ];
-
-export type Hints<T> = {
-	[key: string]: T;
-};
 
 const App = () => {
 	const answer = ["S", "H", "A", "R", "D"];

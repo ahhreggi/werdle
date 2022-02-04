@@ -1,5 +1,5 @@
 import "./Board.scss";
-import type { Letter, Word } from "./BoardTypes";
+import type { Letter, Word } from "./types";
 import { getHintColor } from "./helpers";
 
 type SquareParams = {
