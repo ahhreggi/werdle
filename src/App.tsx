@@ -6,13 +6,15 @@ import Keyboard from "components/Keyboard";
 import { LetterRow } from "components/Board";
 import type { Hints, Settings, Word } from "./components/types";
 import { compareHints } from "components/helpers";
+import { words } from "data/words";
 
 const App = () => {
 	const [settings, setSettings] = useState<Settings>({
 		letters: 5,
 		tries: 6,
-		// allow non-words: boolean
+		wordsOnly: false,
 	});
+	const [answer, setAnswer] = useState<string[]>([]);
 	const [answers, setAnswers] = useState<Word[]>([]);
 	const [hints, setHints] = useState<Hints<string>>({});
 	const [field, setField] = useState<string>("");
@@ -21,6 +23,15 @@ const App = () => {
 		<LetterRow key={"currentRow"} letters={[]} />
 	);
 	const [active, setActive] = useState<boolean>(true);
+
+	const generateAnswer = (length = settings.letters.toString()) => {
+		const wordsList = words[length];
+		const answer = wordsList[Math.floor(Math.random() * wordsList.length)];
+		return Array.from(answer);
+	};
+	useEffect(() => {
+		setAnswer(generateAnswer());
+	}, [settings.tries]);
 
 	useEffect(() => {
 		const word = Array.from(field).map((letter) => {
@@ -45,8 +56,6 @@ const App = () => {
 		alert(msg);
 	};
 
-	const answer = ["S", "H", "A", "R", "D"];
-
 	const getStatus = (
 		answers: Word[],
 		settings: Settings,
@@ -61,9 +70,10 @@ const App = () => {
 		setActive(getStatus(answers, settings, answer, field));
 		setField("");
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [answers, settings]);
+	}, [answer, answers, settings]);
 
 	const resetGame = () => {
+		setAnswer(generateAnswer());
 		setAnswers([]);
 		setHints({});
 	};
@@ -116,13 +126,11 @@ const App = () => {
 		addRow(submittedRow);
 	};
 
-	// ERROR: Not seeing field change
 	const onPressKey = (key: string, currentField: string) => {
 		if (key === "Backspace") {
 			setField(currentField.slice(0, currentField.length - 1));
 		} else if (key === "Enter") {
 			if (!active) {
-				console.log("RESETTING GAME");
 				resetGame();
 			} else if (currentField.length !== settings.letters) {
 				showError("invalid word");
@@ -146,6 +154,8 @@ const App = () => {
 				key === "Enter"
 			) {
 				onPressKey(key, field);
+			} else if (key === "Escape") {
+				resetGame();
 			}
 		};
 		document.addEventListener("keydown", keyHandler, false);
@@ -155,23 +165,52 @@ const App = () => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [field, settings.letters, answers, hints, active]);
 
+	useEffect(() => {
+		resetGame();
+	}, [settings]);
+
 	return (
 		<div className="App">
-			<h1>WERDLE</h1>
-			<Board
-				settings={settings}
-				words={answers}
-				currentRow={answers.length < settings.tries ? currentRow : null}
-			/>
-			<Keyboard
-				settings={settings}
-				field={field}
-				hints={hints}
-				active={active}
-				onClick={(key: string, field: string) => {
-					onPressKey(key, field);
-				}}
-			/>
+			<h1>WERDLE({JSON.stringify(answer)})</h1>
+			<button onClick={() => resetGame()}>new game</button>
+			<button onClick={() => setSettings({ ...settings, letters: 4 })}>
+				4
+			</button>
+			<button onClick={() => setSettings({ ...settings, letters: 5 })}>
+				5
+			</button>
+			<button onClick={() => setSettings({ ...settings, letters: 6 })}>
+				6
+			</button>
+			<button onClick={() => setSettings({ ...settings, tries: 5 })}>
+				5 tries
+			</button>
+			<button onClick={() => setSettings({ ...settings, tries: 6 })}>
+				6 tries
+			</button>
+			<button
+				onClick={() => setSettings({ ...settings, letters: 5, tries: 6 })}
+			>
+				reset settings
+			</button>
+			{!!answer?.length && (
+				<>
+					<Board
+						settings={settings}
+						words={answers}
+						currentRow={answers.length < settings.tries ? currentRow : null}
+					/>
+					<Keyboard
+						settings={settings}
+						field={field}
+						hints={hints}
+						active={active}
+						onClick={(key: string, field: string) => {
+							onPressKey(key, field);
+						}}
+					/>
+				</>
+			)}
 		</div>
 	);
 };

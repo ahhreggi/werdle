@@ -2,6 +2,7 @@
 export type Settings = {
 	letters: number;
 	tries: number;
+	wordsOnly: boolean;
 };
 export type Hints<T> = {
 	[key: string]: T;
