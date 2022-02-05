@@ -27,13 +27,15 @@
 		}
 		.error-container {
 			@include flex-center;
-			min-height: 25px;
+			height: 25px;
 			margin-top: 10px;
 			color: $lighter;
-			width: fit-content;
+			width: 95vw;
 			flex-wrap: nowrap;
 			text-align: center;
-			border: 1px solid blue;
+			flex-direction: row;
+			position: relative;
+			bottom: 0;
 		}
 	}
 }
