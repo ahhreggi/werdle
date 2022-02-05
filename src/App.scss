@@ -24,6 +24,8 @@
 		font-size: 2vh;
 		margin: 0;
 		margin-bottom: 10px;
+		text-align: center;
+		white-space: nowrap;
 	}
 	.container {
 		@include flex-center-col;
