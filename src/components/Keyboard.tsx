@@ -195,8 +195,8 @@ const Keyboard = ({
 		];
 		const row3 = [
 			{
-				value: "ENTER",
-				color: "light",
+				value: "BACK",
+				color: "red",
 				wide: true,
 			},
 			{
@@ -235,8 +235,8 @@ const Keyboard = ({
 				wide: false,
 			},
 			{
-				value: "BACK",
-				color: "light",
+				value: "ENTER",
+				color: "green",
 				wide: true,
 			},
 		];
