@@ -161,8 +161,10 @@ const App = () => {
 			}
 			submittedRow.push({ value: letter, hint });
 		}
-		addHints(submittedRow);
-		addRow(submittedRow);
+		setTimeout(() => {
+			addHints(submittedRow);
+			addRow(submittedRow);
+		});
 	};
 
 	const validateWord = (word: string, bank: string[]) => {
