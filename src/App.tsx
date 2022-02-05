@@ -237,7 +237,7 @@ const App = () => {
 
 	return (
 		<div className="App">
-			<h1>WERDLE{active ? "yes" : "no"}</h1>
+			<h1>WERDLE</h1>
 			{!!answer?.length && (
 				<>
 					<div className="container">
