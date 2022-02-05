@@ -238,13 +238,13 @@ const App = () => {
 							currentRow={answers.length < settings.tries ? currentRow : null}
 							showAnswer={showAnswer}
 						/>
-						<div className="error-container">
+						<span className="error-container">
 							{error ||
 								(!active && showAnswer
 									? `the answer was: ${answer.join("")}`
 									: "") ||
 								(!active && !showAnswer ? "you won!" : "")}
-						</div>
+						</span>
 					</div>
 
 					<Keyboard

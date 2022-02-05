@@ -27,7 +27,7 @@
 		}
 		.error-container {
 			@include flex-center;
-			height: 25px;
+			min-height: 25px;
 			margin-top: 10px;
 			color: $lighter;
 			width: fit-content;
