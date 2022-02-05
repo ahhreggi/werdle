@@ -251,12 +251,14 @@ const App = () => {
 				<>
 					<div className="container">
 						<div className="menu-container">
+							{/* <Button label="-" onClick={() => alert("-")} /> */}
 							<Button label="new&nbsp;game" onClick={() => resetGame()} />
 							<Button
 								label="clear&nbsp;row"
 								onClick={() => setField("")}
 								active={active && !!field.length}
 							/>
+							{/* <Button label="+" onClick={() => alert("+")} /> */}
 						</div>
 						<Board
 							settings={settings}

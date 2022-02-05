@@ -8,7 +8,9 @@ type ButtonParams = {
 const Button = ({ onClick, label, active = true }: ButtonParams) => {
 	return (
 		<button
-			className={`Button ${active ? "active" : ""}`}
+			className={`Button ${active ? "active" : ""} ${
+				label === "+" ? "plus" : ""
+			} ${label === "-" ? "minus" : ""}`}
 			onClick={() => onClick()}
 			disabled={!active}
 		>

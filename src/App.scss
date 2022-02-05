@@ -35,6 +35,14 @@
 				width: 120px;
 				padding: 0;
 				background-color: $light;
+				&.plus {
+					background-color: $green;
+					width: 40px;
+				}
+				&.minus {
+					background-color: $red;
+					width: 40px;
+				}
 			}
 		}
 		.error-container {
