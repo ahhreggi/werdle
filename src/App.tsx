@@ -237,7 +237,14 @@ const App = () => {
 
 	return (
 		<div className="App">
+			{/* <a
+				href="https://github.com/ahhreggi/werdle"
+				target="_blank"
+				rel="noreferrer"
+			> */}
 			<h1>WERDLE</h1>
+			{/* </a> */}
+			<h5>A replayable Wordle clone</h5>
 			{!!answer?.length && (
 				<>
 					<div className="container">
