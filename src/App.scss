@@ -3,8 +3,8 @@
 .App {
 	color: $white;
 	background-color: $black;
-	height: 90vh;
 	width: 100vw;
+	padding-bottom: 3vh;
 	@include flex-center-col;
 	flex-grow: 1;
 	user-select: none;

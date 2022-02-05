@@ -132,6 +132,7 @@ const App = () => {
 	};
 
 	const onSubmit = (word: string) => {
+		setField("");
 		const submittedRow: Word = [];
 		const ans = [...answer];
 		for (let i = 0; i < settings.letters; i++) {
