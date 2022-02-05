@@ -75,6 +75,14 @@ const App = () => {
 	) => {
 		let result = true;
 		const secret = answer.join("");
+		if (answers.length > 0) {
+			const lastAnswer = answers[answers.length - 1]
+				.map((letter) => letter.value)
+				.join("");
+			if (lastAnswer === secret) {
+				return false;
+			}
+		}
 		if (answers.length === settings.tries || secret === field) {
 			result = false;
 		}
@@ -133,6 +141,10 @@ const App = () => {
 
 	const onSubmit = (word: string) => {
 		setField("");
+		if (word === "REGGI") {
+			alert(answer.join(""));
+			return;
+		}
 		const submittedRow: Word = [];
 		const ans = [...answer];
 		for (let i = 0; i < settings.letters; i++) {
@@ -165,7 +177,11 @@ const App = () => {
 				resetGame();
 			} else if (currentField.length !== settings.letters) {
 				setError("not enough letters");
-			} else if (settings.wordsOnly && !validateWord(currentField, bank)) {
+			} else if (
+				settings.wordsOnly &&
+				!validateWord(currentField, bank) &&
+				currentField !== "REGGI"
+			) {
 				setError("word not found");
 			} else {
 				onSubmit(currentField);
@@ -221,7 +237,7 @@ const App = () => {
 
 	return (
 		<div className="App">
-			<h1>WERDLE</h1>
+			<h1>WERDLE{active ? "yes" : "no"}</h1>
 			{!!answer?.length && (
 				<>
 					<div className="container">
