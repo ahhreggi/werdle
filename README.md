@@ -3,7 +3,7 @@
 <img src="./public/logo.png" width="150px">
 <p>
 <h1>Werdle</h1>
-<p>A Wordle clone
+<p>A replayable Wordle clone
 </p>
 
 <p>Built with <a href="https://reactjs.org/">React</a>, CSS</a>/<a href="https://sass-lang.com/">Sass</a>, and hosted with <a href="https://www.netlify.com/">Netlify</a></p>
