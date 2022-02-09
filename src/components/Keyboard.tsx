@@ -131,12 +131,12 @@ const Keyboard = ({
 				wide: false,
 			},
 			{
-				value: "O",
+				value: "I",
 				color: "light",
 				wide: false,
 			},
 			{
-				value: "I",
+				value: "O",
 				color: "light",
 				wide: false,
 			},
