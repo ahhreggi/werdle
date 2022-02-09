@@ -4732,7 +4732,6 @@ export const words: { [key: string]: string[] } = {
 		"MASSE",
 		"LARGO",
 		"BAZAR",
-		"PSSST",
 		"SYLPH",
 		"LULAB",
 		"TOQUE",
